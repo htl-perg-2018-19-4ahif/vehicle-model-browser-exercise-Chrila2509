@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { FilterInputComponent } from './filter-input/filter-input.component';
+import { MatNativeDateModule } from '@angular/material';
 
 @NgModule({
   declarations: [

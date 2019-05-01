@@ -20,7 +20,8 @@ export class DataTableComponent implements OnInit {
   @Input() public make: string;
   @Input() public year: string;
 
-  public url: string = 'https://vehicle-data.azurewebsites.net/api';
+  public url: string = 'https://vehicle-data.azurewebsites.net/api/models';
+  public filUrl: string = '';
   public finalUrl: string = '';
   public offset: number = 0;
 
@@ -28,23 +29,39 @@ export class DataTableComponent implements OnInit {
 
   constructor(private httpClient: HttpClient) { }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
   async getVehicles() {
-    let filUrl: string;
-    if (this.make != '' || this.year != '') {
+    this.offset = 0;
+    if (this.make !== '' || this.year != '') {
       if (this.make != '') {
-        filUrl = this.url + 'makes?make=' + this.make;
+        this.filUrl = this.url + `?make=${this.make}&`;
         if (this.year != '') {
-          filUrl += filUrl + '&years?year=' + this.year;
+          this.filUrl += `&year=${this.year}&`;
         }
       } else if (this.year != '') {
-        filUrl = this.url + 'years?year=' + this.year;
-      } else {
-        filUrl = this.url + 'models';
+        this.filUrl = this.url + `?year=${this.year}&`;
       }
-      this.finalUrl = filUrl + '&offset=' + this.offset + '&offset=10';
+    } else {
+      this.filUrl = this.url + '?';
+    }
+    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
+    const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
+    this.vehicleList = vehicles;
+  }
+
+  async increaseOffset() {
+    this.offset += 10;
+    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
+    const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
+    this.vehicleList = vehicles;
+  }
+
+  async decreaseOffset() {
+    if (this.offset >= 10) {
+      this.offset -= 10;
+      this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
       const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
       this.vehicleList = vehicles;
     }
