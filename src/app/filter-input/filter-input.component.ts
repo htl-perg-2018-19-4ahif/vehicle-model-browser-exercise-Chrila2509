@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-filter-input',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FilterInputComponent implements OnInit {
 
-  constructor() { }
+  public url: string = 'https://vehicle-data.azurewebsites.net/api';
 
-  ngOnInit() {
+  public makesList: String[];
+  public yearsList: String[];
+
+  public make: string = '';
+  public year: string = '';
+
+  constructor(private httpClient: HttpClient) { }
+
+  async ngOnInit() {
+    const makes = await this.httpClient.get<String[]>(this.url + '/makes').toPromise();
+    makes.push('');
+    this.makesList = makes;
+
+    const years = await this.httpClient.get<String[]>(this.url + '/years').toPromise();
+    years.push('');
+    this.yearsList = years;
   }
 
 }
