@@ -20,12 +20,12 @@ export class DataTableComponent implements OnInit {
   @Input() public make: string;
   @Input() public year: string;
 
-  public url: string = 'https://vehicle-data.azurewebsites.net/api/models';
-  public filUrl: string = '';
-  public finalUrl: string = '';
-  public offset: number = 0;
+  public url = 'https://vehicle-data.azurewebsites.net/api/models';
+  public filUrl = '';
+  public finalUrl = '';
+  public offset = 0;
 
-  public vehicleList: IVehicle[];
+  public vehicleList: IVehicle[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -34,26 +34,26 @@ export class DataTableComponent implements OnInit {
 
   async getVehicles() {
     this.offset = 0;
-    if (this.make !== '' || this.year != '') {
-      if (this.make != '') {
+    if (this.make !== '' || this.year !== '') {
+      if (this.make !== '') {
         this.filUrl = this.url + `?make=${this.make}&`;
-        if (this.year != '') {
+        if (this.year !== '') {
           this.filUrl += `&year=${this.year}&`;
         }
-      } else if (this.year != '') {
+      } else if (this.year !== '') {
         this.filUrl = this.url + `?year=${this.year}&`;
       }
     } else {
       this.filUrl = this.url + '?';
     }
-    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
+    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`;
     const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
     this.vehicleList = vehicles;
   }
 
   async increaseOffset() {
     this.offset += 10;
-    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
+    this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`;
     const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
     this.vehicleList = vehicles;
   }
@@ -61,9 +61,16 @@ export class DataTableComponent implements OnInit {
   async decreaseOffset() {
     if (this.offset >= 10) {
       this.offset -= 10;
-      this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`; //changed fetch to 5 for testing
+      this.finalUrl = this.filUrl + `offset=${this.offset}&fetch=10`;
       const vehicles = await this.httpClient.get<IVehicle[]>(this.finalUrl).toPromise();
       this.vehicleList = vehicles;
     }
+  }
+
+  get hasNoNext() {
+    if (this.vehicleList.length !== 10) {
+      return true;
+    }
+    return false;
   }
 }

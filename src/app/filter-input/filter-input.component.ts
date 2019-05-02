@@ -8,21 +8,25 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FilterInputComponent implements OnInit {
 
-  public url: string = 'https://vehicle-data.azurewebsites.net/api';
+  public url = 'https://vehicle-data.azurewebsites.net/api';
 
+  // tslint:disable-next-line:ban-types
   public makesList: String[];
+  // tslint:disable-next-line:ban-types
   public yearsList: String[];
 
-  public make: string = '';
-  public year: string = '';
+  public make = '';
+  public year = '';
 
   constructor(private httpClient: HttpClient) { }
 
   async ngOnInit() {
+    // tslint:disable-next-line:ban-types
     const makes = await this.httpClient.get<String[]>(this.url + '/makes').toPromise();
     makes.push('');
     this.makesList = makes;
 
+    // tslint:disable-next-line:ban-types
     const years = await this.httpClient.get<String[]>(this.url + '/years').toPromise();
     years.push('');
     this.yearsList = years;

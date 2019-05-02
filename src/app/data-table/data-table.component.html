@@ -1,13 +1,14 @@
+<button mat-raised-button (click)="getVehicles()">Refresh</button>
+
 <table>
   <tr>
-    <td>
-      <button mat-raised-button (click)="getVehicles()">Refresh</button>
-    </td>
+    <td><button mat-raised-button (click)="decreaseOffset()" [disabled]="offset == 0">previous</button></td>
+    <td><button mat-raised-button (click)="increaseOffset()" [disabled]="hasNoNext">next</button></td>
   </tr>
 </table>
 
-<table mat-table>
-  <tr mat-header-cell *matHeaderCellDef>
+<table>
+  <tr>
     <th>ID</th>
     <th>Year</th>
     <th>Make</th>
@@ -20,12 +21,5 @@
     <td> {{ vehicles.make }}</td>
     <td> {{ vehicles.model }}</td>
     <td> {{ vehicles.detail }}</td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td><button mat-raised-button (click)="decreaseOffset()" [disabled]="offset == 0">previous</button></td>
-    <td><button mat-raised-button (click)="increaseOffset()" [disabled]="vehicles != 10">next</button></td>
   </tr>
 </table>

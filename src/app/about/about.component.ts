@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoremIpsum } from "lorem-ipsum";
+import { LoremIpsum } from 'lorem-ipsum';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -19,13 +19,17 @@ const lorem = new LoremIpsum({
 })
 export class AboutComponent implements OnInit {
 
-  text: string = "";
+  text = '';
+  text2 = '';
+  text3 = '';
 
   constructor() {
   }
 
   ngOnInit() {
-    this.text = lorem.generateSentences(25);
+    this.text = lorem.generateSentences(10);
+    this.text2 = lorem.generateSentences(10);
+    this.text3 = lorem.generateSentences(10);
   }
 
 }

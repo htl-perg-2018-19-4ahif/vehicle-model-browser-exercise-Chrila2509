@@ -1,24 +1,18 @@
 <table>
   <tr>
-    <td>
-      Marke:
-    </td>
-    <td>
-      <select [(ngModel)]="make">
-        <option *ngFor="let makes of makesList"> {{ makes }} </option>
-      </select>
-    </td>
+    <th>Make:</th>
+    <th>Year:</th>
   </tr>
   <tr>
     <td>
-      Jahr:
-    </td>
-    <td>
-      <select [(ngModel)]="year">
-        <option *ngFor="let years of yearsList"> {{ years }} </option>
+      <select [(ngModel)]='make'>
+        <option *ngFor='let makes of makesList'> {{ makes }} </option>
       </select>
     </td>
+    <td><select [(ngModel)]='year'>
+        <option *ngFor='let years of yearsList'> {{ years }} </option>
+      </select></td>
   </tr>
 </table>
 
-<app-data-table [make]="make" [year]="year"></app-data-table>
+<app-data-table [make]='make' [year]='year'></app-data-table>
